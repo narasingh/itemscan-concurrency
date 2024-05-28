@@ -1,9 +1,12 @@
 import React from "react";
+import ItemScan from './components/ItemScan';
 
 const App = () => {
   return (
     <div className="AppContainer">
-      <h1>Hello, world!!</h1>
+      <div>
+        <ItemScan />
+      </div>
     </div>
   );
 };
