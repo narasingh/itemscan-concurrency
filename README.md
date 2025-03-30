@@ -1,29 +1,28 @@
-# react-redux-saga-boilerplate
+# itemscan-concurrency
 
-[![Dependencies Status](https://david-dm.org/manishaggarwalm/react-redux-saga-boilerplate.svg)](https://www.npmjs.com/package/react-redux-saga-boilerplate)
 [![Version Status](https://badge.fury.io/js/react-redux-saga-boilerplate.svg)](https://www.npmjs.com/package/react-redux-saga-boilerplate)
 [![Download Status](https://img.shields.io/npm/dt/react-redux-saga-boilerplate.svg)](https://www.npmjs.com/package/react-redux-saga-boilerplate)
 
-This boilerplate contain a ready to go **react application** with **redux** and **Saga** as middleware.
+Item scan concurrency handle via saga
 
 ## How to Run
 
 1. Download the package on local
 
 ```
-git clone https://github.com/manishaggarwalm/react-redux-saga-boilerplate.git
+git clone https://github.com/narasingh/itemscan-concurrency.git
 ```
 
 2. Run following command to install dependencies
 
 ```
-npm install
+npm install or yarn install
 ```
 
 3. Execute to run application in dev mode
 
 ```
-npm run dev
+npm run dev or yarn dev
 ```
 
 The dev server will run on `http://localhost:3000`
@@ -68,22 +67,6 @@ const createItem = (task) => ({
   type: Types.CREATE_ITEM,
   payload: task,
 });
-```
-
-It should be object with two keys, one `type` and other `payload`, you can use any name here for the keys but to make it consistent we use type and payload (The use of `type` and `payload` will come in `reducers`)
-
-or, Alternatively you can use `redux-actions`
-
-```
-npm install redux-actions
-```
-
-```
-import { createActions } from 'redux-actions';
-
-const CREATE_ITEM = "CREATE_ITEM";
-const createItem = createActions(CREATE_ITEM)
-
 ```
 
 ## Dependencies
