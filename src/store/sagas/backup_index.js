@@ -1,5 +1,6 @@
 // sagas.js
-import { call, put, take, actionChannel, flush } from 'redux-saga/effects';
+import { call, put, take, actionChannel, flush, takeEvery, fork, all } from 'redux-saga/effects';
+import { channel, buffers } from 'redux-saga';
 import { ENQUEUE_SCAN_REQUEST, scanItemSuccess, scanItemFailure } from '../actions/items';
 
 // Mock API call
@@ -11,7 +12,7 @@ const addItemApi = (item) => {
       } else {
         reject(new Error('Scan failed'));
       }
-    }, 50); // Simulate network latency
+    }, Math.floor(Math.random() * 400)); // Simulate network latency
   });
 };
 
@@ -24,15 +25,20 @@ function* processQueue(channel) {
       yield put(scanItemSuccess(response));
     } catch (error) {
       yield put(scanItemFailure(error.message));
-    } finally {
-      yield flush(channel);
+      while (true) { // flush the remaining items in the channel
+        const pendingAction = yield flush(channel);
+        if (!pendingAction.length) break;
+      }
     }
   }
 }
 
 function* watchEnqueueScanRequest() {
-  const channel = yield actionChannel(ENQUEUE_SCAN_REQUEST);
-  yield processQueue(channel);
+  const queueChannel = yield call(channel, buffers.expanding(1));
+  yield takeEvery(ENQUEUE_SCAN_REQUEST, function* (action) {
+    yield put(queueChannel, action);
+  });
+  yield fork(processQueue, queueChannel);
 }
 
 export default function* rootSaga() {
